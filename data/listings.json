@@ -518,5 +518,44 @@
     "colors": ["pink", "lavender", "mint"],
     "brand": null,
     "platform": "depop"
+  },
+  {
+    "id": "lst_041",
+    "title": "Pleated Midi Skirt — Navy Blue",
+    "description": "Classic pleated midi skirt in navy blue. High-waisted with a side zipper. Perfect for a vintage or preppy look.",
+    "category": "bottoms",
+    "style_tags": ["vintage", "preppy", "classic", "pleated"],
+    "size": "M",
+    "condition": "excellent",
+    "price": 28.00,
+    "colors": ["navy"],
+    "brand": null,
+    "platform": "thredUp"
+  },
+  {
+    "id": "lst_042",
+    "title": "Faux Fur Coat — Leopard Print",
+    "description": "Statement faux fur coat in bold leopard print. Oversized fit, hits mid-thigh. Lined interior. Perfect for winter layering.",
+    "category": "outerwear",
+    "style_tags": ["statement", "vintage", "animal print", "bold"],
+    "size": "M/L",
+    "condition": "good",
+    "price": 65.00,
+    "colors": ["brown", "black", "tan"],
+    "brand": null,
+    "platform": "depop"
+  },
+  {
+    "id": "lst_043",
+    "title": "Ribbed Turtleneck — Cream",
+    "description": "Soft ribbed turtleneck in cream. Slim fit, long sleeves. Great layering piece for fall and winter.",
+    "category": "tops",
+    "style_tags": ["vintage", "classic", "minimal", "layering"],
+    "size": "S/M",
+    "condition": "excellent",
+    "price": 19.00,
+    "colors": ["cream", "off-white"],
+    "brand": null,
+    "platform": "thredUp"
   }
 ]
