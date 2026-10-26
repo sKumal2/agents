@@ -42,7 +42,10 @@ Given a query that matches no listings, the agent stops before calling
 
 ---
 
-## 3. Something about state
+## 3. The selected item remains consistent between tools
+
+Given a successful search, the title, price, size, and platform of session["selected_item"] must match the item passed to suggest_outfit and create_fit_card in 5 of 5 tries.
+
 
 <!-- YOU WRITE THIS ONE.
 
@@ -57,12 +60,13 @@ Given a query that matches no listings, the agent stops before calling
 
 
 **Why this target:**
-
-
+ chose 5 out of 5 because passing data between tools should be deterministic. If the item changes between tools, the agent could recommend an outfit for the wrong clothing item.
 
 ---
 
-## 4. Something about the fit card
+## 4. The fit card contains the required information
+
+Given a valid item and outfit suggestion, create_fit_card returns a readable caption of 2–4 sentences containing the item's title, price, selling platform, and outfit description in at least 4 of 5 tries.
 
 <!-- YOU WRITE THIS ONE.
 
@@ -78,12 +82,15 @@ Given a query that matches no listings, the agent stops before calling
 
 
 **Why this target:**
+I chose 4 out of 5 because the fit card is generated using an AI model, which can produce different wording and formatting each time. However, the important information should still be present in most outputs.
 
 
 
 ---
 
-## 5. Your choice
+## 5. The search respects the user's maximum price
+
+Given a query with a maximum price of $30, the agent must select a listing priced at $30 or less in 5 of 5 tries when at least one matching listing exists within that budget.
 
 <!-- YOU WRITE THIS ONE TOO.
 
@@ -95,6 +102,7 @@ Given a query that matches no listings, the agent stops before calling
 
 
 **Why this target:**
+I chose 5 out of 5 because price filtering is a straightforward comparison. The agent should never recommend an item that exceeds the user's specified maximum price.
 
 
 
