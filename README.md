@@ -60,24 +60,36 @@
 ### `search_listings`
 
 - **What it does:**
-- **Inputs:** <!-- name and type each: `max_price` (float), not "a price" -->
-- **Returns:**
+<!-- This searches for all the listing that is available and returns matches. -->
+**Inputs:** 
+<!-- 'description' (str), 'size' (str), 'max_price' (float) -->
+- **Returns:** 
+<!-- A list of matching listing dicts, best match first, each with title, price, size, platform. -->
 - **When it has nothing:**
+<!-- When it has nothing that matches the user request, it returns an empty list, not None, and definitely not an exception. -->
 
 ### `suggest_outfit`
 
 - **What it does:**
+<!-- It takes an item and wardrobe, and returns outfit ideas.  -->
 - **Inputs:**
+'new_item' (dict), 'wardrobe' (dict)
 - **Returns:**
+It returns a string with outfit suggestions using the new item from the users wardrobe.
 - **When it has nothing:**
+It returns an empty string.
+
 
 ### `create_fit_card`
 
 - **What it does:**
+ It creates a short, shareable fashion caption based on the selected clothing item and the suggested outfit.
 - **Inputs:**
+new_item (dict) with details like title (str), price (float), size (str), and platform (str) and outfit_suggestion (str)
 - **Returns:**
+A string (str) containing a formatted fit card with the selected item's details, outfit suggestion, and a short description suitable for sharing.
 - **When it has nothing:**
-
+ Returns an empty string ("") if the item or outfit suggestion is missing or invalid.
 ---
 
 ## Planning Loop
@@ -94,13 +106,15 @@
      function have to be real. -->
 
 **Branch rule:**
+If search_listings returns an empty list ([]), add a message to the session saying no matching clothing items were found and stop the agent. Otherwise, select the first listing, pass it to suggest_outfit with the user's wardrobe, and pass the resulting outfit suggestion and selected listing to create_fit_card.
 
-**Where it lives:** `agent.py::run_agent`
-
+**Where it lives:** 
+`agent.py::run_agent`
 **How the query is parsed:** <!-- regex, string splitting, or asking the model — say which -->
+The user's natural language query is parsed using regular expressions (regex) and string matching to extract clothing descriptions, size, and maximum price. For example, "vintage graphic tee size M under $30" is converted into description="vintage graphic tee", size="M", and max_price=30.0, which are passed to search_listings.
 
 **What moves through the session:** <!-- which fields, in what order -->
-
+ The session stores the user's original query, the parsed clothing description, size, and maximum price. The query is passed to search_listings, which returns matching listings. The first matching listing (new_item) is passed to suggest_outfit along with the user's wardrobe. The resulting outfit suggestion (outfit) and selected listing (new_item) are then passed to create_fit_card, which generates the final fit card returned to the user. If no listings are found, the session stores a message explaining that no matches were found, and the agent stops.
 ---
 
 ## Sample Run
