@@ -130,15 +130,6 @@ The user's natural language query is parsed using regular expressions (regex) an
 
 0 model calls this session
 
-python -c "from tools import search_listings; print(search_listings('graphic tee', max_price=30))"
-printed : []
-
-python -c "from tools import suggest_outfit; print(suggest_outfit({'title': 'Vintage Graphic Tee', 'price': 25.0}, {'items': ['black jeans', 'white sneakers']}))"
-printed : nothing
-
-python -c "from tools import create_fit_card; print(create_fit_card('Graphic tee with black jeans and white sneakers', {'title': 'Vintage Graphic Tee', 'price': 25.0, 'platform': 'Depop'}))"
-printed : nothing 
-
 **One full query**
 
 ```
@@ -186,7 +177,36 @@ $ python -c "from tools import create_fit_card; from utils.data_loader import lo
 Nothing beats the effortless cool of Vintage Levi's 501 Jeans in Medium Wash. Throw them on with crisp white sneakers for that timeless, laid-back weekend look we're all chasing. Grab this pair right now on Depop for just $38.00 before someone else snags them.
 ```
 
+Edge cases:
+(.venv) samirkumal@MacBookAir agents % python -c "from tools import search_listings; print(search_listings('nonexistentxyz123'))"
+[]
+(.venv) samirkumal@MacBookAir agents % python -c "from tools import suggest_outfit; from utils.data_loader import load_listings, get_empty_wardrobe; print(suggest_outfit(load_listings()[0], get_empty_wardrobe()))"
+These vintage Levi's 501s are an absolute wardrobe staple. Here are two easy ways to style them:
+
+**1. Casual & Effortless (Everyday Wear)**
+*   **Top:** A crisp, tucked-in white t-shirt or a relaxed-fit grey crewneck sweatshirt.
+*   **Footwear:** Classic white leather sneakers (like Adidas Stan Smiths or Converse).
+*   **Accessories:** A simple brown leather belt to pull the look together.
+
+**2. Elevated & Cool (Night Out or Smart-Casual)**
+*   **Top:** A black ribbed tank top layered under an oversized black blazer.
+*   **Footwear:** Black leather ankle boots or loafers.
+*   **Accessories:** A chunky silver chain necklace and a black leather shoulder bag. 
+
+Both looks lean into the vintage, effortless vibe of the jeans while keeping things versatile and timeless!
 ---
+
+python -c "from tools import create_fit_card; from utils.data_loader import load_listings; import config; config.CACHE_ENABLED=False; config.TEMPERATURE=0.9; item=load_listings()[0]; [print(f'\nRun {i+1}: {create_fit_card(\"Black jeans and white sneakers\", item)}') for i in range(3)]"
+
+
+--- Run 1 ---
+Nothing beats the effortless cool of these Vintage Levi's 501 Jeans in a medium wash. I love styling them with a basic black top and fresh white sneakers for that ultimate off-duty look. Grab them over on my Depop for just $38.00 before someone else does!
+
+--- Run 2 ---
+Nothing beats the effortless cool of a classic pair of Vintage Levi's 501 Jeans in a medium wash. Style them with a simple black tee and crisp white sneakers for that perfect off-duty look. Grab this timeless piece over on Depop for just $38.00 before someone else does!
+
+--- Run 3 ---
+Nothing beats a classic pair of Vintage Levi's 501 Jeans in a medium wash. Grab these on Depop right now for just $38.00. Throw them on with black jeans and white sneakers for an effortlessly cool, go-to everyday look.
 
 ## How I Used AI
 
@@ -200,14 +220,26 @@ Nothing beats the effortless cool of Vintage Levi's 501 Jeans in Medium Wash. Th
 **Moment 1**
 
 - *What I asked for:*
+I asked ChatGPT to help me implement the search_listings function using the existing load_listings() function, filtering by clothing description, size, and maximum price.
+
 - *What came back:*
+AI suggested using keyword overlap to rank matching listings, along with price and size filtering. It also suggested using regular expressions to prevent incorrect size matches, such as matching "L" with "XL".
+
 - *What I changed:*
+ I added the search logic to tools.py and tested it with different clothing descriptions and price limits. I made sure the function returned an empty list ([]) when no listings matched, as required by my tool specification.
+
+
 
 **Moment 2**
 
 - *What I asked for:*
+I asked ChatGPT to help implement suggest_outfit and create_fit_card using the project's existing generate() model adapter.
+
 - *What came back:*
+AI provided prompts for generating outfit combinations based on the user's wardrobe and creating short, shareable fashion captions. It also included handling for empty wardrobes and missing outfit suggestions.
+
 - *What I changed:*
+I integrated the suggested implementations into tools.py, kept the existing function signatures, and tested the tools independently. I also included handling for empty inputs so the tools would return descriptive responses instead of failing.
 
 <!-- ═══════════════════════ UNIT 4 — THE TEST ═══════════════════════
 
